@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.py[cod]
+data/
+outputs/*
+!outputs/.gitkeep
+config/local.toml
+catboost_info/
+

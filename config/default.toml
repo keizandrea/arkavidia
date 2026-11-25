@@ -1,0 +1,52 @@
+[data]
+root = "../data"
+train = "train.csv"
+test = "test.csv"
+sample = "sample_submission.csv"
+id = "shipment_id"
+target = "shipment_status"
+# Only fields known at prediction time. Keys needed by joins also go here.
+features = []
+categorical = []
+# Map column names to explicit strptime formats when needed.
+dates = {}
+
+[training]
+seed = 42
+validation_fraction_of_development = 0.20
+device = "auto"
+gpu_devices = "0"
+early_stopping = 50
+class_weights = "SqrtBalanced"
+
+[profiles.baseline]
+iterations = 450
+depth = 6
+learning_rate = 0.08
+
+[profiles.large]
+iterations = 1600
+depth = 8
+learning_rate = 0.04
+
+# Repeat this block for each available auxiliary table.
+# All allowed values, including group keys, must be available at prediction time.
+# For event data supply BOTH timestamp columns and explicit eligible features.
+# [[relations]]
+# name = "hubs"
+# path = "hubs.parquet"
+# left_key = "hub_id"
+# right_key = "hub_id"
+# kind = "lookup"
+# columns = ["region"]
+#
+# [[relations]]
+# name = "events"
+# path = "events.parquet"
+# left_key = "shipment_id"
+# right_key = "shipment_id"
+# kind = "aggregate"
+# columns = ["distance"]
+# event_time = "event_at"
+# cutoff = "booked_at"
+
